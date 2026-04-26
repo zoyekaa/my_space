@@ -1,77 +1,89 @@
 body, html {
     margin: 0;
     padding: 0;
-    background-color: #fff; /* Белый фон как на твоем примере */
+    background-color: #fff;
     font-family: sans-serif;
-}
-
-/* Настройки самих часов */
-.main-clock {
-    max-width: 180px;
-    height: auto;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
-    transition: transform 0.2s ease;
+    width: 100%;
+    height: 100%;
 }
 
 /* --- КОМПЬЮТЕРНАЯ ВЕРСИЯ --- */
 .desktop-layout { display: block; }
+
 .desktop-layout .bg-image {
     position: fixed; top: 0; left: 0;
     width: 100%; height: 100%;
     background-size: cover; background-position: center;
     opacity: 0;
-    transition: opacity 0.8s ease-in-out; /* Плавный переход */
+    transition: opacity 0.8s ease-in-out;
     z-index: 1;
 }
 .desktop-layout .bg-image.active { opacity: 1; z-index: 2; }
-.clock-overlay {
-    position: fixed; top: 50%; left: 50%;
+
+/* Центрирование часов на десктопе */
+.clock-anchor {
+    position: fixed;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 10;
+    z-index: 999; /* Поверх всего */
     cursor: pointer;
 }
 
 /* --- МОБИЛЬНАЯ ВЕРСИЯ --- */
 .mobile-layout {
-    display: none; /* Скрыто по умолчанию */
+    display: none;
     flex-direction: column;
     align-items: center;
     padding: 20px 0;
 }
-.mobile-clock-container { padding: 40px 0; cursor: pointer; }
+.mobile-clock-container { 
+    padding: 40px 0; 
+    cursor: pointer; 
+    position: relative;
+    z-index: 999;
+}
 .mobile-room-list {
     width: 90%;
     display: flex; flex-direction: column; gap: 10px;
 }
-
-/* Контейнер для двух слоев фона (мобильный) */
 .mobile-room-container {
     width: 100%;
-    aspect-ratio: 4 / 3; /* Соотношение сторон рисунка */
-    position: relative; /* Чтобы слои позиционировались внутри */
-    overflow: hidden; /* Чтобы слои не вылезали за края */
-    /*border: 1px solid #ddd;*/
+    aspect-ratio: 4 / 3;
+    position: relative;
+    overflow: hidden;
+    
 }
-
-/* Отдельный слой мобильного фона */
 .mobile-room-item {
-    position: absolute; /* Укладываем слои друг на друга */
+    position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
     background-size: cover; background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0; /* По умолчанию скрыт */
-    transition: opacity 0.8s ease-in-out; /* Тот самый ПЛАВНЫЙ переход */
-    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+.mobile-room-item.active { opacity: 1; }
+
+/* ОБЩИЕ НАСТРОЙКИ ЧАСОВ */
+.main-clock {
+    display: block;
+    max-width: 180px;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
 }
 
-/* Видимый мобильный слой */
-.mobile-room-item.active {
-    opacity: 1;
-    z-index: 2; /* Активный слой всегда сверху */
+/* ПУЛЬСАЦИЯ (не мешает центрированию) */
+@keyframes pulse-anim {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
-/* --- АДАПТИВНОСТЬ (Медиа-запросы) --- */
+.pulse .main-clock {
+    animation: pulse-anim 2s infinite ease-in-out;
+}
+
+/* АДАПТИВНОСТЬ */
 @media (max-width: 768px) {
-    .desktop-layout { display: none; } /* Прячем десктоп */
-    .mobile-layout { display: flex; }  /* Показываем мобилку */
+    .desktop-layout { display: none; }
+    .mobile-layout { display: flex; }
 }

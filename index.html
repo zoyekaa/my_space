@@ -11,18 +11,19 @@
     <div class="desktop-layout">
         <div id="bg-1" class="bg-image active"></div>
         <div id="bg-2" class="bg-image"></div>
-        <div class="clock-overlay">
-            <img src="alarm/" class="main-clock" alt="Clock" onclick="nextTime()">
+        
+        <div class="clock-anchor pulse" id="desktop-clock-box">
+            <img src="alarm/alarm_6_30.png" class="main-clock" alt="Clock" onclick="nextTime()">
         </div>
     </div>
 
     <div class="mobile-layout">
-        <div class="mobile-clock-container">
+        
+        <div class="mobile-clock-container pulse" id="mobile-clock-box-top">
             <img src="alarm/alarm_6_30.png" class="main-clock" alt="Clock" onclick="nextTime()">
         </div>
 
         <div class="mobile-room-list">
-            
             <div class="mobile-room-container" id="m-room-container-1">
                 <div class="mobile-room-item layer-1 active"></div>
                 <div class="mobile-room-item layer-2"></div>
@@ -42,10 +43,9 @@
                 <div class="mobile-room-item layer-1 active"></div>
                 <div class="mobile-room-item layer-2"></div>
             </div>
-            
         </div>
 
-        <div class="mobile-clock-container">
+        <div class="mobile-clock-container pulse" id="mobile-clock-box-bottom">
             <img src="alarm/alarm_6_30.png" class="main-clock" alt="Clock" onclick="nextTime()">
         </div>
     </div>

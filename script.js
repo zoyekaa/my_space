@@ -101,3 +101,17 @@ window.onload = () => {
     // Показываем первый кадр при загрузке (с активным 6:30)
     updateDisplay();
 };
+function nextTime() {
+    // Убираем пульсацию везде
+    const desktopBox = document.getElementById('desktop-clock-box');
+    const mobileTop = document.getElementById('mobile-clock-box-top');
+    const mobileBottom = document.getElementById('mobile-clock-box-bottom');
+    
+    if (desktopBox) desktopBox.classList.remove('pulse');
+    if (mobileTop) mobileTop.classList.remove('pulse');
+    if (mobileBottom) mobileBottom.classList.remove('pulse');
+
+    // Твой код переключения времени...
+    currentIndex = (currentIndex + 1) % schedule.length;
+    updateDisplay();
+}
