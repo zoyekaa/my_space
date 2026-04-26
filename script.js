@@ -1,53 +1,76 @@
+// Данные о кадрах. Для каждого времени прописываем все нужные пути.
 const schedule = [
-    { room: 'day_6_30/6_30.jpg', clock: 'alarm/alarm_6_30.png' },
-    { room: 'day_8_00/8_00.jpg', clock: 'alarm/alarm_8_00.png' },
-    { room: 'day_9_00/9_00.jpg', clock: 'alarm/alarm_9_00.png' },
-    { room: 'night_21_00/21_00.jpg', clock: 'alarm/alarm_21_00.png' }
+    { 
+        // Данные для 06:30
+        desktopCol: 'day_6_30/6_30.jpg', // Твой цельный коллаж для ПК
+        clock: 'alarm/alarm_6_30.png',            // Твои часы
+        // 4 отдельные картинки для телефона, как ты просила:
+        mobile: ['day_6_30/6_30_1.jpg', 'day_6_30/6_30_2.jpg', 'day_6_30/6_30_3.jpg', 'day_6_30/6_30_4.jpg']
+    },
+    { 
+        // Данные для 08:00
+        desktopCol: 'day_8_00/8_00.jpg',
+        clock: 'alarm/alarm_8_00.png',
+        mobile: ['day_8_00/8_00_1.jpg', 'day_8_00/8_00_2.jpg', 'day_8_00/8_00_3.jpg', 'day_8_00/8_00_4.jpg']
+    },
+    { 
+        // Данные для 09:00
+        desktopCol: 'day_9_00/9_00.jpg',
+        clock: 'alarm/alarm_9_00.png',
+        mobile: ['day_9_00/9_00_1.jpg', 'day_9_00/9_00_2.jpg', 'day_9_00/9_00_3.jpg', 'day_9_00/9_00_4.jpg']
+    },
+    { 
+        // Данные для 21:00
+        desktopCol: 'night_21_00/21_00.jpg',
+        clock: 'alarm/alarm_21_00.png',
+        mobile: ['night_21_00/21_00_1.jpg', 'night_21_00/21_00_2.jpg', 'night_21_00/21_00_3.jpg', 'night_21_00/21_00_4.jpg']
+    }
 ];
 
 let currentIndex = 0;
-let activeLayer = 1; // Мы будем переключаться между bg-1 и bg-2
-
-// Функция предзагрузки изображений (чтобы всё было в кэше)
-function preloadImages() {
-    schedule.forEach(item => {
-        new Image().src = item.room;
-        new Image().src = item.clock;
-    });
-}
+let activeLayer = 1;
 
 function updateDisplay() {
-    const current = schedule[currentIndex];
+    const data = schedule[currentIndex];
+
+    // 1. Обновляем все часы на странице (и верхние, и нижние)
+    const allClocks = document.querySelectorAll('.main-clock');
+    allClocks.forEach(clk => clk.src = data.clock);
+
+    // 2. Обновляем десктопный фон (плавный переход)
     const nextBgId = activeLayer === 1 ? 'bg-1' : 'bg-2';
     const prevBgId = activeLayer === 1 ? 'bg-2' : 'bg-1';
+    const nextL = document.getElementById(nextBgId);
+    const prevL = document.getElementById(prevBgId);
 
-    const nextLayer = document.getElementById(nextBgId);
-    const prevLayer = document.getElementById(prevBgId);
+    if (nextL) {
+        nextL.style.backgroundImage = `url('${data.desktopCol}')`;
+        nextL.classList.add('active');
+        prevL.classList.remove('active');
+        activeLayer = activeLayer === 1 ? 2 : 1;
+    }
 
-    // 1. Ставим новую картинку на "скрытый" слой
-    nextLayer.style.backgroundImage = `url('${current.room}')`;
-    
-    // 2. Делаем его видимым, а старый — прозрачным
-    nextLayer.classList.add('active');
-    prevLayer.classList.remove('active');
-
-    // 3. Меняем часы
-    document.getElementById('main-clock').src = current.clock;
-
-    // 4. Переключаем индекс слоя для следующего раза
-    activeLayer = activeLayer === 1 ? 2 : 1;
+    // 3. Обновляем мобильные картинки в списке (все 4 штуки)
+    for (let i = 0; i < 4; i++) {
+        const mRoom = document.getElementById(`m-room-${i+1}`);
+        if (mRoom) {
+            // Подставляем картинку по индексу из массива data.mobile
+            mRoom.style.backgroundImage = `url('${data.mobile[i]}')`;
+        }
+    }
 }
 
 function nextTime() {
-    currentIndex++;
-    if (currentIndex >= schedule.length) {
-        currentIndex = 0;
-    }
+    currentIndex = (currentIndex + 1) % schedule.length;
     updateDisplay();
 }
 
-// Запуск
+// Предзагрузка, чтобы не было мигания
 window.onload = () => {
-    preloadImages(); // Грузим всё в память
-    updateDisplay(); // Показываем первый кадр
+    schedule.forEach(item => {
+        new Image().src = item.desktopCol;
+        new Image().src = item.clock;
+        item.mobile.forEach(mImg => new Image().src = mImg);
+    });
+    updateDisplay(); // Показываем первый кадр при загрузке
 };

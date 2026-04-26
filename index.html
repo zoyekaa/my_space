@@ -2,17 +2,35 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Световой сценарий комнаты</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Room Lighting Plan</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="bg-1" class="bg-image active"></div>
-    <div id="bg-2" class="bg-image"></div>
+    <div class="desktop-layout">
+        <div id="bg-1" class="bg-image active"></div>
+        <div id="bg-2" class="bg-image"></div>
+        <div class="clock-overlay">
+            <img src="alarm/alarm_6_30.png" class="main-clock" alt="Clock" onclick="nextTime()">
+        </div>
+    </div>
 
-    <div class="clock-overlay">
-        <img src="alarm/alarm_6_30.png" id="main-clock" alt="Flip Clock" onclick="nextTime()">
+    <div class="mobile-layout">
+        <div class="mobile-clock-container">
+            <img src="alarm/alarm_6_30.png" class="main-clock" alt="Clock" onclick="nextTime()">
+        </div>
+
+        <div class="mobile-room-list">
+            <div class="mobile-room-item" id="m-room-1"></div>
+            <div class="mobile-room-item" id="m-room-2"></div>
+            <div class="mobile-room-item" id="m-room-3"></div>
+            <div class="mobile-room-item" id="m-room-4"></div>
+        </div>
+
+        <div class="mobile-clock-container">
+            <img src="alarm/alarm_6_30.png" class="main-clock" alt="Clock" onclick="nextTime()">
+        </div>
     </div>
 
     <script src="script.js"></script>

@@ -1,48 +1,58 @@
 body, html {
     margin: 0;
     padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: #000;
+    background-color: #fff; /* Белый фон как на твоем примере */
+    font-family: sans-serif;
 }
 
-/* Общие стили для обоих слоев фона */
-.bg-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0; /* По умолчанию слой невидимый */
-    transition: opacity 1s ease-in-out; /* Плавное проявление */
+/* Настройки самих часов */
+.main-clock {
+    max-width: 180px;
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    transition: transform 0.2s ease;
+}
+
+/* --- КОМПЬЮТЕРНАЯ ВЕРСИЯ --- */
+.desktop-layout { display: block; }
+.desktop-layout .bg-image {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover; background-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
     z-index: 1;
 }
-
-/* Класс для видимого слоя */
-.bg-image.active {
-    opacity: 1;
-    z-index: 2; /* Активный слой всегда сверху */
-}
-
+.desktop-layout .bg-image.active { opacity: 1; z-index: 2; }
 .clock-overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: fixed; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
     cursor: pointer;
 }
 
-#main-clock {
-    max-width: 180px;
-    height: auto;
-    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.7));
-    transition: transform 0.2s ease;
+/* --- МОБИЛЬНАЯ ВЕРСИЯ --- */
+.mobile-layout {
+    display: none; /* Скрыто по умолчанию */
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+}
+.mobile-clock-container { padding: 40px 0; cursor: pointer; }
+.mobile-room-list {
+    width: 90%;
+    display: flex; flex-direction: column; gap: 10px;
+}
+.mobile-room-item {
+    width: 100%;
+    aspect-ratio: 4 / 3; /* Соотношение сторон рисунка */
+    background-size: cover; background-position: center;
+    /* border: 1px solid #ddd; */
+    transition: background-image 0.5s ease;
 }
 
-#main-clock:hover {
-    transform: scale(1.05);
+/* --- АДАПТИВНОСТЬ (Медиа-запросы) --- */
+@media (max-width: 768px) {
+    .desktop-layout { display: none; } /* Прячем десктоп */
+    .mobile-layout { display: flex; }  /* Показываем мобилку */
 }
