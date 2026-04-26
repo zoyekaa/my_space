@@ -20,7 +20,7 @@ body, html {
     width: 100%; height: 100%;
     background-size: cover; background-position: center;
     opacity: 0;
-    transition: opacity 0.8s ease-in-out;
+    transition: opacity 0.8s ease-in-out; /* Плавный переход */
     z-index: 1;
 }
 .desktop-layout .bg-image.active { opacity: 1; z-index: 2; }
@@ -43,12 +43,31 @@ body, html {
     width: 90%;
     display: flex; flex-direction: column; gap: 10px;
 }
-.mobile-room-item {
+
+/* Контейнер для двух слоев фона (мобильный) */
+.mobile-room-container {
     width: 100%;
     aspect-ratio: 4 / 3; /* Соотношение сторон рисунка */
+    position: relative; /* Чтобы слои позиционировались внутри */
+    overflow: hidden; /* Чтобы слои не вылезали за края */
+    /*border: 1px solid #ddd;*/
+}
+
+/* Отдельный слой мобильного фона */
+.mobile-room-item {
+    position: absolute; /* Укладываем слои друг на друга */
+    top: 0; left: 0; width: 100%; height: 100%;
     background-size: cover; background-position: center;
-    /* border: 1px solid #ddd; */
-    transition: background-image 0.5s ease;
+    background-repeat: no-repeat;
+    opacity: 0; /* По умолчанию скрыт */
+    transition: opacity 0.8s ease-in-out; /* Тот самый ПЛАВНЫЙ переход */
+    z-index: 1;
+}
+
+/* Видимый мобильный слой */
+.mobile-room-item.active {
+    opacity: 1;
+    z-index: 2; /* Активный слой всегда сверху */
 }
 
 /* --- АДАПТИВНОСТЬ (Медиа-запросы) --- */
